@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+{% form_theme form _self %}
+
+{% block body %}
+    <div class="container">
+        {{ form_start(form) }}
+            <div class="row">
+                <div class="col">
+                    {{ dump(def) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{ form_errors(form) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    {{ dump(form.subdefinitions) }}
+                    {{ form_row(form.subdefinitions) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    {{ form_rest(form) }}
+                    <button type="submit">Submit</button>
+                </div>
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="application/javascript">
+    $('.subdef-collection').collection({
+        min: 0,
+        max: 25,
+        up:     '<a href="#" class="collection-up btn btn-default" title="Move definition up"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>',
+        down:   '<a href="#" class="collection-down btn btn-default" title="Move definition down"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>',
+        add:    '<a href="#" class="collection-add btn btn-default" title="Insert definition"><i class="fa fa-plus" aria-hidden="true"></i></a>',
+        remove: '<a href="#" class="collection-remove btn btn-default" title="Remove definition"><i class="fa fa-trash" aria-hidden="true"></i></a>',
+        prefix: 'parent',
+        allow_duplicates: true,
+        children: [{
+            selector: '.child-collection',
+            add:    '<a href="#" class="collection-add btn btn-default" title="Insert definition"><i class="fa fa-plus" aria-hidden="true"></i></a>',
+            allow_duplicates: true
+        }],
+        fade_in: false
+    });
+    </script>
+{% endblock %}
+
+{% block _definition_subdefinitions %}
+    {{ block('SubdefinitionType_widget') }}
+{% endblock %}
+
+{% block SubdefinitionType_widget %}
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.term) }}
+        </div>
+        <div class="col">
+            <div class="btn-group">
+                <a href="#" class="collection-up btn btn-default" title="Move definition up"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                <a href="#" class="collection-down btn btn-default" title="Move definition down"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+            </div>
+            <div class="btn-group">
+                <a href="#" class="collection-add btn btn-default" title="Insert definition"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                <a href="#" class="collection-remove btn btn-default" title="Remove definition"><i class="fa fa-trash" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </div>
+    {% if form.subdefinitions is defined %}
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.subdefinitions) }}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
