@@ -14,8 +14,60 @@ use App\Form\Model\Subdefinition;
   */
 class Definition
 {
+    protected $label;
+    protected $term;
+    protected $definition;
+    protected $extended;
     protected $subdefinitions = [];
     protected $subdefinitionXml;
+
+    public function getLabel(): string
+    {
+        return $this->label ?? '';
+    }
+
+    public function setLabel(?string $value): self
+    {
+        $this->label = $value;
+
+        return $this;
+    }
+
+    public function getTerm(): string
+    {
+        return $this->term ?? '';
+    }
+
+    public function setTerm(?string $value): self
+    {
+        $this->term = $value;
+
+        return $this;
+    }
+
+    public function getDefinition(): string
+    {
+        return $this->definition ?? '';
+    }
+
+    public function setDefinition(?string $value): self
+    {
+        $this->definition = $value;
+
+        return $this;
+    }
+
+    public function getExtendedDefinition(): string
+    {
+        return $this->extended ?? '';
+    }
+
+    public function setExtendedDefinition(?string $value): self
+    {
+        $this->extended = $value;
+
+        return $this;
+    }
 
     public function getSubdefinitions(): iterable
     {
@@ -29,20 +81,14 @@ class Definition
         return $this;
     }
 
-    public function addSubdefinition(Subdefinition $value): self
+    public function getSubdefinitionXml(): string
     {
-        $this->subdefinitions[] = $value;
-
-        return $this;
+        return $this->subdefinitionXml ?? '';
     }
 
-    public function removeSubdefinition(Subdefinition $value): self
+    public function setSubdefinitionXml(string $value): self
     {
-        $key = array_search($value, $this->subdefinitions, true);
-
-        if (false !== $key) {
-            unset($this->subdefinitions[$key]);
-        }
+        $this->subdefinitionXml = $value;
 
         return $this;
     }

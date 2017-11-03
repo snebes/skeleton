@@ -1,29 +1,29 @@
 {% extends 'base.html.twig' %}
-{% form_theme form _self %}
+{% form_theme form 'default/form_theme.html.twig' 'jquery.collection.html.twig' %}
 
 {% block body %}
     <div class="container">
         {{ form_start(form) }}
             <div class="row">
-                <div class="col">
+                <div class="col-md-12">
                     {{ dump(def) }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    {{ form_errors(form) }}
+                    {{ dump(form) }}
                 </div>
             </div>
 
             <div class="row">
-                <div class="col">
-                    {{ dump(form.subdefinitions) }}
+                <div class="col-md-12">
+                    {{ form_row(form.label) }}
+                    {{ form_row(form.term) }}
+                    {{ form_row(form.definition) }}
+                    {{ form_row(form.extendedDefinition) }}
+
                     {{ form_row(form.subdefinitions) }}
                 </div>
             </div>
 
             <div class="row">
-                <div class="col">
+                <div class="col-md-12">
                     {{ form_rest(form) }}
                     <button type="submit">Submit</button>
                 </div>
@@ -34,50 +34,21 @@
 
 {% block javascripts %}
     <script type="application/javascript">
-    $('.subdef-collection').collection({
+    $('.parent-collection').collection({
+        fade_in: false,
+        fade_out: false,
         min: 0,
-        max: 25,
-        up:     '<a href="#" class="collection-up btn btn-default" title="Move definition up"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>',
-        down:   '<a href="#" class="collection-down btn btn-default" title="Move definition down"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>',
-        add:    '<a href="#" class="collection-add btn btn-default" title="Insert definition"><i class="fa fa-plus" aria-hidden="true"></i></a>',
-        remove: '<a href="#" class="collection-remove btn btn-default" title="Remove definition"><i class="fa fa-trash" aria-hidden="true"></i></a>',
+        up: '<a href="#" class="btn btn-default">Move subdefintion up</a>',
+        down: '<a href="#" class="btn btn-default">Move subdefintion down</a>',
+        add: '<a href="#" class="btn btn-default">Add subdefintion</a>',
+        remove: '<a href="#" class="btn btn-default">Remove subdefintion</a>',
         prefix: 'parent',
-        allow_duplicates: true,
         children: [{
             selector: '.child-collection',
-            add:    '<a href="#" class="collection-add btn btn-default" title="Insert definition"><i class="fa fa-plus" aria-hidden="true"></i></a>',
-            allow_duplicates: true
+            add: '<a href="#" class="btn btn-default">Add</span></a>',
+            fade_in: false,
+            fade_out: false,
         }],
-        fade_in: false
     });
     </script>
-{% endblock %}
-
-{% block _definition_subdefinitions %}
-    {{ block('SubdefinitionType_widget') }}
-{% endblock %}
-
-{% block SubdefinitionType_widget %}
-    <div class="row">
-        <div class="col">
-            {{ form_row(form.term) }}
-        </div>
-        <div class="col">
-            <div class="btn-group">
-                <a href="#" class="collection-up btn btn-default" title="Move definition up"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
-                <a href="#" class="collection-down btn btn-default" title="Move definition down"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
-            </div>
-            <div class="btn-group">
-                <a href="#" class="collection-add btn btn-default" title="Insert definition"><i class="fa fa-plus" aria-hidden="true"></i></a>
-                <a href="#" class="collection-remove btn btn-default" title="Remove definition"><i class="fa fa-trash" aria-hidden="true"></i></a>
-            </div>
-        </div>
-    </div>
-    {% if form.subdefinitions is defined %}
-        <div class="row">
-            <div class="col">
-                {{ form_row(form.subdefinitions) }}
-            </div>
-        </div>
-    {% endif %}
 {% endblock %}

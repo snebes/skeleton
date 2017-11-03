@@ -21,10 +21,13 @@ class SubdefinitionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('label', TextType::class)
             ->add('term', TextType::class)
+            ->add('definition', TextType::class)
+            ->add('extendedDefinition', TextType::class)
         ;
 
-        if (false && --$options['recursionLevel'] > 0) {
+        if (--$options['recursionLevel'] > 0) {
             $builder->add('subdefinitions', CollectionType::class, [
                 'entry_type'    => static::class,
                 'entry_options' => [
@@ -33,9 +36,11 @@ class SubdefinitionType extends AbstractType
                 ],
                 'allow_add'     => true,
                 'allow_delete'  => true,
+                'prototype'     => true,
+                'prototype_name'=> '__children_name__',
                 'by_reference'  => false,
                 'attr' => [
-                    'class' => 'subdef-collection',
+                    'class' => 'child-collection',
                 ],
             ]);
         }

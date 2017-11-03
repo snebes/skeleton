@@ -11,17 +11,56 @@ namespace App\Form\Model;
 
 class Subdefinition
 {
+    protected $label;
     protected $term;
+    protected $definition;
+    protected $extended;
     protected $subdefinitions = [];
+
+    public function getLabel(): string
+    {
+        return $this->label ?? '';
+    }
+
+    public function setLabel(?string $value): self
+    {
+        $this->label = $value;
+
+        return $this;
+    }
 
     public function getTerm(): string
     {
         return $this->term ?? '';
     }
 
-    public function setTerm(string $value): self
+    public function setTerm(?string $value): self
     {
         $this->term = $value;
+
+        return $this;
+    }
+
+    public function getDefinition(): string
+    {
+        return $this->definition ?? '';
+    }
+
+    public function setDefinition(?string $value): self
+    {
+        $this->definition = $value;
+
+        return $this;
+    }
+
+    public function getExtendedDefinition(): string
+    {
+        return $this->extended ?? '';
+    }
+
+    public function setExtendedDefinition(?string $value): self
+    {
+        $this->extended = $value;
 
         return $this;
     }
@@ -38,21 +77,24 @@ class Subdefinition
         return $this;
     }
 
-    public function addSubdefinition(Subdefinition $value): self
+    public function __toString()
     {
-        $this->subdefinitions[] = $value;
+        $str  = '<div class="sub_term">';
+        $str .= sprintf('<p class="sub_term" %s>', '');
+        $str .= sprintf('<span class="term">%s </span>', $this->term);
+        $str .= sprintf('<span class="definition content_inline">%s</span>', $this->definition);
+        $str .= '</p>';
 
-        return $this;
-    }
-
-    public function removeSubdefinition(Subdefinition $value): self
-    {
-        $key = array_search($value, $this->subdefinitions, true);
-
-        if (false !== $key) {
-            unset($this->subdefinitions[$key]);
+        if (!empty($this->extended)) {
+            $str .= $this->extended;
         }
 
-        return $this;
+        foreach ($this->getSubdefinitions() as $sub) {
+            $str .= strval($sub);
+        }
+
+        $str .= '</div>';
+
+        return $str;
     }
 }
